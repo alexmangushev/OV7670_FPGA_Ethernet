@@ -12,15 +12,15 @@
 
 Для запуска проекта была выбрана отладочная плата DE2-115 от компании Altera.
 
-![](https://github.com/alexmangushev/OV7670_FPGA_Ethernet/master/img/dev_board.jpg)
+![](https://github.com/alexmangushev/OV7670_FPGA_Ethernet/blob/master/img/dev_board.jpg)
  
 На ней располагается ПЛИС CycloneIV EP4CE115F29C7. Камера подключается к GPIO.
 
-![](https://github.com/alexmangushev/OV7670_FPGA_Ethernet/master/img/dev_board_2.jpg)
+![](https://github.com/alexmangushev/OV7670_FPGA_Ethernet/blob/master/img/dev_board_2.jpg)
 
 Пример изображения, полученного с камеры
 
-![](https://github.com/alexmangushev/OV7670_FPGA_Ethernet/master/img/frame.jpg)
+![](https://github.com/alexmangushev/OV7670_FPGA_Ethernet/blob/master/img/frame.jpg)
 
 ### Схема подключения камеры:
 
