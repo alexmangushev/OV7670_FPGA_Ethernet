@@ -1,0 +1,15 @@
+# Добавляем только те файлы, которые не надо отслеживать
+
+db/
+greybox_tmp/
+incremental_db/
+output_files/
+simulation/
+
+**/*.v.bak
+**/*.v~
+
+*.txt
+*.q*
+*.d*
+*.r*
