@@ -9,7 +9,7 @@ simulation/
 **/*.v.bak
 **/*.v~
 
-*.txt
-*.q*
-*.d*
-*.r*
+/*.txt
+/*.q*
+/*.d*
+/*.r*
