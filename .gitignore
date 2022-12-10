@@ -1,0 +1,4 @@
+1/
+*.png
+*.py
+!main_new.py
