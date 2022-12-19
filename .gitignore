@@ -13,3 +13,5 @@ simulation/
 /*.q*
 /*.d*
 /*.r*
+
+!cycloneIV_ethernet_cam*.qsf
