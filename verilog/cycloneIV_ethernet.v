@@ -31,9 +31,7 @@ module cycloneIV_ethernet
 	
 	wire clk_10;
 	wire init_clk;
-	reg [5:0] init_delay;
-	reg clk;
-	reg ready;
+	wire clk;
 	
 	wire ram_clk;
 	wire eth_ram_clk;
@@ -61,8 +59,8 @@ module cycloneIV_ethernet
 	assign GPIO[4] = pix_valid;
 	//assign GPIO[6] = eth_finish;
 	//assign GPIO[7] = ram_en;
-	assign GPIO[6] = GPIO[34];
-	assign GPIO[7] = GPIO[35];
+	//assign GPIO[6] = GPIO[34];
+	//assign GPIO[7] = GPIO[35];
 	
 	camera_initialization
 	(
@@ -89,31 +87,25 @@ module cycloneIV_ethernet
 	
 	
 	// initialization delay
-	always@*
-		clk = ready ? CLOCK_50 : 1'b0;
+		
+	init_delay
+	(
+		.init_clk(init_clk),
+		.clk_50(CLOCK_50),
+		.clk(clk)
+	);
 		
 	pll p1 // 10kHz
 	(
 		.inclk0(CLOCK_50),
-		.c0(clk_10),
+		.c0(clk_10)
 	);
 	
 	pll p2 // 5Hz
 	(
 		.inclk0(clk_10),
-		.c0(init_clk),
+		.c0(init_clk)
 	);
-	
-	always@ (posedge init_clk) begin
-		if (init_delay == 6'd60) begin
-			ready <= 1'b1;
-		end
-		else begin
-			init_delay <= init_delay + 1;
-			ready <= 1'b0;
-		end
-	end
-	
 	
 	
 	/*cam_data_generation cam
@@ -189,8 +181,6 @@ module cycloneIV_ethernet
 		.ram_en(eth_ram_en),
 		.eth_finish_out(eth_finish)
 	);
-	
-	reg [27:0] cnt;
 	
 	always@ (posedge clk) begin
 		//if (KEY[0] == 0)
