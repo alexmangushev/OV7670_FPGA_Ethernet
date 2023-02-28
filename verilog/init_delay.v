@@ -1,9 +1,22 @@
 module init_delay
 (
-	input init_clk,
+	//input init_clk,
 	input clk_50,
 	output reg clk
 );
+	wire clk_10;
+
+	pll p1 // 10kHz
+	(
+		.inclk0(clk_50),
+		.c0(clk_10)
+	);
+	
+	pll p2 // 5Hz
+	(
+		.inclk0(clk_10),
+		.c0(init_clk)
+	);
 
 	always@*
 		clk = ready ? clk_50 : 1'b0;

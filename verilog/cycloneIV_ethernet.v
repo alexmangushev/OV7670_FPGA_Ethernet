@@ -29,8 +29,8 @@ module cycloneIV_ethernet
 	
 	wire eth_finish;
 	
-	wire clk_10;
-	wire init_clk;
+	//wire clk_10;
+	//wire init_clk;
 	wire clk;
 	
 	wire ram_clk;
@@ -55,14 +55,15 @@ module cycloneIV_ethernet
 	
 	reg reset;
 	wire cam_end;
+	wire mux_send;
 	
-	assign GPIO[4] = pix_valid;
+	//assign GPIO[4] = pix_valid;
 	//assign GPIO[6] = eth_finish;
 	//assign GPIO[7] = ram_en;
 	//assign GPIO[6] = GPIO[34];
 	//assign GPIO[7] = GPIO[35];
-	
-	camera_initialization
+	 
+	camera_initialization camera_initialization
 	(
 		.clk_in_50(clk),
 		.start(1'b1),
@@ -73,7 +74,7 @@ module cycloneIV_ethernet
 		.init_finish(cam_end)
 	);
 
-	camera_read
+	camera_read camera_read
 	(
 		.p_clock(GPIO[31]),
 		.vsync(GPIO[33]),
@@ -88,14 +89,14 @@ module cycloneIV_ethernet
 	
 	// initialization delay
 		
-	init_delay
+	init_delay init_delay
 	(
-		.init_clk(init_clk),
+		//.init_clk(init_clk),
 		.clk_50(CLOCK_50),
 		.clk(clk)
 	);
 		
-	pll p1 // 10kHz
+	/*pll p1 // 10kHz
 	(
 		.inclk0(CLOCK_50),
 		.c0(clk_10)
@@ -105,7 +106,7 @@ module cycloneIV_ethernet
 	(
 		.inclk0(clk_10),
 		.c0(init_clk)
-	);
+	);*/
 	
 	
 	/*cam_data_generation cam
@@ -132,14 +133,12 @@ module cycloneIV_ethernet
 		.eth_contr_din(send_data_in),
 		.eth_contr_addr(eth_ram_addr),
 		
-		.ram_dout(ram_data_out),
-		.rom_dout(rom_data_out),
+		.mux_send(mux_send),
 		
 		.ram_clk(ram_clk),
 		.ram_wr_en(ram_en),
 		.rom_wr_en(rom_en),
 		.ram_din(ram_data_in),
-		.send_data(send_data),
 		.ram_addr(ram_addr),
 		.eth_contr_reset(eth_reset)
 		
@@ -154,13 +153,21 @@ module cycloneIV_ethernet
 		.wr_en(ram_en)		
 	);
 	
-	rom rom1
+	rom rom
 	(	
 		.clk(ram_clk),
 		.addr(ram_addr),
 		.dout(rom_data_out),
 		.din(ram_data_in),
 		.wr_en(rom_en)
+	);
+	
+	mux_send_data mux_send_data
+	(
+		.source(mux_send),
+		.ram_data(ram_data_out),
+		.rom_data(rom_data_out),
+		.send_data(send_data)
 	);
 	
 	

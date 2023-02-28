@@ -17,18 +17,15 @@ module write_ram_controller
 	input [7:0] eth_contr_din,
 	input [10:0] eth_contr_addr,
 	
-	input [7:0] ram_dout,
-	input [7:0] rom_dout,
-	
 	output reg ram_clk,
 	output reg ram_wr_en,
 	output reg rom_wr_en,
 	output reg [7:0] ram_din,
-	output reg [7:0] send_data,
 	output reg [10:0] ram_addr,
 	output reg eth_contr_reset,
 	
-	output [1:0] FSM_state
+	output [1:0] FSM_state,
+	output reg mux_send
 );
 
 	localparam FSM_IDLE = 0;
@@ -103,7 +100,7 @@ module write_ram_controller
 		eth_contr_reset = 1;
 		ram_din = cam_data;
 		ram_addr = 50;
-		send_data = ram_dout;
+		mux_send = 1; //ram
 	end
 	FSM_WRITE_DATA: begin
 		ram_clk = pix_valid;
@@ -112,7 +109,7 @@ module write_ram_controller
 		eth_contr_reset = 1;
 		ram_din = cam_data;
 		ram_addr = cnt;
-		send_data = ram_dout;
+		mux_send = 1; //ram
 	end
 	FSM_ETH_CONTR: begin
 		ram_clk = eth_contr_clk;
@@ -121,7 +118,7 @@ module write_ram_controller
 		eth_contr_reset = 0;
 		ram_din = eth_contr_din;
 		ram_addr = eth_contr_addr;
-		send_data = ram_dout;
+		mux_send = 1; //ram
 	end
 	FSM_ETH_CONTR_ROM: begin
 		ram_clk = eth_contr_clk;
@@ -130,7 +127,7 @@ module write_ram_controller
 		eth_contr_reset = 0;
 		ram_din = eth_contr_din;
 		ram_addr = eth_contr_addr;
-		send_data = rom_dout;
+		mux_send = 0; //rom
 	end
 		
 	endcase

@@ -14,4 +14,7 @@ simulation/
 /*.d*
 /*.r*
 
-!cycloneIV_ethernet_cam*.qsf
+!cycloneIV_ethernet_cam.qsf
+!cycloneIV_ethernet_cam.qpf
+!cycloneIV_ethernet_cam.qws
+!cycloneIV_ethernet_cam.tis_db_list.ddb
